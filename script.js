@@ -1,17 +1,20 @@
 const convertButton = document.querySelector(".convert-button")
 const currencySelect = document.querySelector(".currency-select")
 
-function convertValues(){
+const libraToday = 5.0
+const bolivarToday = 4.8
+const yenToday = 5.5
+
+const convertValues = async () => {
     const inputCurrencyValue = document.querySelector(".input-currency").value
     const currencyValueToConvert = document.querySelector(".currency-value-convert")
     const currencyValueConverted = document.querySelector(".currency-value")
 
-    const dolarToday = 5.2
-    const euroToday = 6.2
-    const libraToday = 5.0
-    const bolivarToday = 4.8
-    const yenToday = 5.5
-    const bitcoinToday = 9.8
+    const data = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL").then(response => response.json())
+
+    const dolarToday = data.USDBRL.high
+    const euroToday = data.EURBRL.high
+    const bitcoinToday = data.BTCBRL.high
 
     if(currencySelect.value == "dolar"){
         currencyValueConverted.innerHTML = new Intl.NumberFormat("en-US", {
@@ -31,9 +34,9 @@ function convertValues(){
 
     }
     if(currencySelect.value == "bolivar"){
-        currencyValueConverted.innerHTML = new Intl.NumberFormat("en-GB", {
+        currencyValueConverted.innerHTML = new Intl.NumberFormat("es-VE", {
             style: "currency", 
-            currency: "GBP"}).format(inputCurrencyValue / bolivarToday) // falta
+            currency: "VEF"}).format(inputCurrencyValue / bolivarToday) // falta
 
     }
     if(currencySelect.value == "yen"){
@@ -45,7 +48,7 @@ function convertValues(){
     if(currencySelect.value == "bitcoin"){
         currencyValueConverted.innerHTML = new Intl.NumberFormat("en-GB", {
             style: "currency", 
-            currency: "XBT"}).format(inputCurrencyValue / bitcoinToday) //falta
+            currency: "BTC"}).format(inputCurrencyValue / bitcoinToday) //falta
 
     }
     
